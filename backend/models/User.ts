@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   passwordHash: { type: String, required: true },
   leetcodeUsername: { type: String, required: true },
   timezone: { type: String, default: 'UTC' },
-  pushNotificationToken: { type: String },
+  pushSubscription: { type: mongoose.Schema.Types.Mixed },
   currentStreak: { type: Number, default: 0 },
   longestStreak: { type: Number, default: 0 },
   lastSolvedDate: { type: String }, // YYYY-MM-DD

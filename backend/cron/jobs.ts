@@ -3,7 +3,7 @@ import { DailyProblem } from '../models/DailyProblem.js';
 import { User } from '../models/User.js';
 import { Completion } from '../models/Completion.js';
 import { fetchDailyProblem, fetchRecentSubmissions } from '../services/leetcode.js';
-import { sendNotification } from '../services/firebase.js';
+import { sendNotification } from '../services/push.js';
 import { format, subDays, isSameDay } from 'date-fns';
 
 export async function initCronJobs() {
@@ -40,11 +40,11 @@ export async function initCronJobs() {
       console.log(`Fetched daily problem: ${problemData.title}`);
 
       // Send daily reminder to all users
-      const users = await User.find({ pushNotificationToken: { $exists: true, $ne: null } });
+      const users = await User.find({ pushSubscription: { $exists: true, $ne: null } });
       for (const user of users) {
-        if (user.pushNotificationToken) {
+        if (user.pushSubscription) {
           sendNotification(
-            user.pushNotificationToken,
+            user.pushSubscription,
             "🔥 New Daily Problem!",
             `Today's problem is ${problemData.title}. Don't break your streak!`
           );
@@ -112,9 +112,9 @@ export async function initCronJobs() {
           });
 
           // Send congratulatory notification
-          if (user.pushNotificationToken) {
+          if (user.pushSubscription) {
             sendNotification(
-              user.pushNotificationToken,
+              user.pushSubscription,
               "🔥 Streak Maintained!",
               "Great job solving today's LeetCode problem."
             );
@@ -140,12 +140,12 @@ export async function initCronJobs() {
 async function sendReminders(title: string, body: string) {
   try {
     const today = format(new Date(), 'yyyy-MM-dd');
-    const users = await User.find({ pushNotificationToken: { $exists: true, $ne: null } });
+    const users = await User.find({ pushSubscription: { $exists: true, $ne: null } });
 
     for (const user of users) {
       const solved = await Completion.findOne({ userId: user._id, date: today });
-      if (!solved && user.pushNotificationToken) {
-        sendNotification(user.pushNotificationToken, title, body);
+      if (!solved && user.pushSubscription) {
+        sendNotification(user.pushSubscription, title, body);
       }
     }
   } catch (error) {

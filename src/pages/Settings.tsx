@@ -2,6 +2,21 @@ import { useState, useEffect } from 'react';
 import { Bell, User, Globe } from 'lucide-react';
 import api from '../services/api';
 
+function urlBase64ToUint8Array(base64String: string) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, '+')
+    .replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
 export function Settings() {
   const [user, setUser] = useState<any>(null);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
@@ -17,19 +32,26 @@ export function Settings() {
   const handleEnableNotifications = async () => {
     setLoading(true);
     try {
-      if (!('Notification' in window)) {
-        alert('This browser does not support desktop notification');
+      if (!('Notification' in window) || !('serviceWorker' in navigator)) {
+        alert('This browser does not support desktop notification or service workers');
         return;
       }
 
       const permission = await Notification.requestPermission();
       
       if (permission === 'granted') {
-        // In a real app, you would get the FCM token here
-        // const token = await getToken(messaging, { vapidKey: 'YOUR_PUBLIC_VAPID_KEY_HERE' });
-        const mockToken = 'mock-fcm-token-' + Date.now();
+        const registration = await navigator.serviceWorker.ready;
         
-        await api.post('/notifications/register', { token: mockToken });
+        // Get VAPID public key from backend
+        const { data } = await api.get('/notifications/vapid-public-key');
+        const convertedVapidKey = urlBase64ToUint8Array(data.publicKey);
+        
+        const subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: convertedVapidKey
+        });
+        
+        await api.post('/notifications/register', { subscription });
         setNotificationsEnabled(true);
         alert('Notifications enabled successfully!');
       } else {

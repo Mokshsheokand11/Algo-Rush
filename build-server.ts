@@ -14,7 +14,7 @@ esbuild.build({
     'bcryptjs',
     'node-cron',
     'cors',
-    'firebase-admin',
+    'web-push',
     'dotenv',
     'vite'
   ],
