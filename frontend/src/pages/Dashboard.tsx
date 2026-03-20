@@ -35,41 +35,41 @@ export function Dashboard() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-in fade-in duration-500">
       <header>
-        <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
-        <p className="text-slate-500 mt-2">Welcome back! Here's your daily summary.</p>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
+        <p className="text-slate-500 dark:text-slate-400 mt-2">Welcome back! Here's your daily summary.</p>
       </header>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
-          <div className="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors duration-200 flex items-center gap-4">
+          <div className="w-14 h-14 bg-orange-100 dark:bg-orange-950/30 rounded-2xl flex items-center justify-center">
             <Flame className="w-7 h-7 text-orange-500" />
           </div>
           <div>
-            <p className="text-sm font-medium text-slate-500">Current Streak</p>
-            <p className="text-2xl font-bold text-slate-900">{streak?.currentStreak || 0} days</p>
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Current Streak</p>
+            <p className="text-2xl font-bold text-slate-900 dark:text-white">{streak?.currentStreak || 0} days</p>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
-          <div className="w-14 h-14 bg-yellow-100 rounded-2xl flex items-center justify-center">
-            <Trophy className="w-7 h-7 text-yellow-600" />
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors duration-200 flex items-center gap-4">
+          <div className="w-14 h-14 bg-yellow-100 dark:bg-yellow-900/30 rounded-2xl flex items-center justify-center">
+            <Trophy className="w-7 h-7 text-yellow-600 dark:text-yellow-500" />
           </div>
           <div>
-            <p className="text-sm font-medium text-slate-500">Longest Streak</p>
-            <p className="text-2xl font-bold text-slate-900">{streak?.longestStreak || 0} days</p>
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Longest Streak</p>
+            <p className="text-2xl font-bold text-slate-900 dark:text-white">{streak?.longestStreak || 0} days</p>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
-          <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center">
-            <Calendar className="w-7 h-7 text-blue-500" />
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors duration-200 flex items-center gap-4">
+          <div className="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center">
+            <Calendar className="w-7 h-7 text-blue-500 dark:text-blue-400" />
           </div>
           <div>
-            <p className="text-sm font-medium text-slate-500">Last Solved</p>
-            <p className="text-lg font-bold text-slate-900">
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Last Solved</p>
+            <p className="text-lg font-bold text-slate-900 dark:text-white">
               {streak?.lastSolvedDate || 'Never'}
             </p>
           </div>
@@ -77,10 +77,10 @@ export function Dashboard() {
       </div>
 
       {/* Today's Problem */}
-      <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-        <div className="p-6 border-b border-slate-100 flex justify-between items-center">
-          <h2 className="text-xl font-bold text-slate-900">Today's Problem</h2>
-          <span className="text-sm font-medium text-slate-500">{problem?.date}</span>
+      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden transition-colors duration-200">
+        <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">Today's Problem</h2>
+          <span className="text-sm font-medium text-slate-500 dark:text-slate-400">{problem?.date}</span>
         </div>
         
         <div className="p-6">
@@ -88,28 +88,28 @@ export function Dashboard() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <h3 className="text-2xl font-bold text-slate-900">{problem.title}</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{problem.title}</h3>
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    problem.difficulty === 'Easy' ? 'bg-green-100 text-green-700' :
-                    problem.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
-                    'bg-red-100 text-red-700'
+                    problem.difficulty === 'Easy' ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' :
+                    problem.difficulty === 'Medium' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400' :
+                    'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
                   }`}>
                     {problem.difficulty}
                   </span>
                 </div>
-                <p className="text-slate-500">
+                <p className="text-slate-500 dark:text-slate-400">
                   Solve this problem to maintain your daily streak!
                 </p>
               </div>
 
-              <div className="flex flex-col items-end gap-4">
+              <div className="flex flex-col items-end gap-4 overflow-hidden">
                 {streak?.solvedToday ? (
-                  <div className="flex items-center gap-2 text-green-600 bg-green-50 px-4 py-2 rounded-xl font-medium">
+                  <div className="flex items-center gap-2 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-4 py-2 rounded-xl font-medium">
                     <CheckCircle2 className="w-5 h-5" />
                     Solved Today
                   </div>
                 ) : (
-                  <div className="flex items-center gap-2 text-orange-600 bg-orange-50 px-4 py-2 rounded-xl font-medium">
+                  <div className="flex items-center gap-2 text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/20 px-4 py-2 rounded-xl font-medium">
                     <Clock className="w-5 h-5" />
                     Pending
                   </div>
@@ -119,7 +119,7 @@ export function Dashboard() {
                   href={`https://leetcode.com/problems/${problem.slug}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-xl font-medium transition-colors"
+                  className="flex items-center gap-2 bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100 text-white px-6 py-3 rounded-xl font-medium transition-all shadow-lg active:scale-95"
                 >
                   Solve Problem
                   <ExternalLink className="w-4 h-4" />
@@ -127,7 +127,7 @@ export function Dashboard() {
               </div>
             </div>
           ) : (
-            <p className="text-slate-500">No problem found for today.</p>
+            <p className="text-slate-500 dark:text-slate-400">No problem found for today.</p>
           )}
         </div>
       </div>
